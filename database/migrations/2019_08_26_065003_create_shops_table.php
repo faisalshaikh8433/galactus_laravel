@@ -15,15 +15,15 @@ class CreateShopsTable extends Migration
     {
       Schema::create('shops', function (Blueprint $table) {
         $table->bigIncrements('id');
-        $table->string('shortcode')->nullable(false);
+        $table->string('shortcode')->nullable(false)->unique();
         $table->string('name')->nullable(false)->unique();
-        $table->text('address');
-        $table->string('phone');
-        $table->string('pincode');
-        $table->string('city');
-        $table->string('state');
-        $table->string('email');
-        $table->boolean('active')->nullable(false)->nullable()->default(true);
+        $table->text('address')->nullable();
+        $table->string('phone')->nullable();
+        $table->string('pincode')->nullable();
+        $table->string('city')->nullable();
+        $table->string('state')->nullable();
+        $table->string('email')->nullable();
+        $table->boolean('active')->nullable(false)->default(true);
         
         $table->timestamps();
       });

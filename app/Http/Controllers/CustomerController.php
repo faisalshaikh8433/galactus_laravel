@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\Http\Resources\Customer as CustomerResource;
+use \Illuminate\Support\Facades\Validator;
+// use App\Http\Requests\CustomerRequest;
+
 
 class CustomerController extends Controller
 {
@@ -16,17 +19,7 @@ class CustomerController extends Controller
     public function index()
     {
       $customers = Customer::paginate(20);
-      return CustomerResource::collection($customers);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+      return CustomerResource::collection($customers, 200);
     }
 
     /**
@@ -37,51 +30,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'phone' => 'required|min:10|max:10|unique:customers,phone'
+      ]);
+
+      if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
+      } else {
+        $customer = Customer::create($request->all());
+        return new CustomerResource($customer, 200);
+      }
+      // $validated = $request->validated();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

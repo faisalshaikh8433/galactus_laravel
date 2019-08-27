@@ -20,9 +20,9 @@ class CreateOrdersTable extends Migration
         $table->integer('shop_id')->unsigned()->index();
         $table->foreign('shop_id')->references('id')->on('shops');
         $table->text('address')->nullable(false);
-        $table->string(':pincode')->nullable(false);
-        $table->string('landmark');
-        $table->string('status')->nullable(false);
+        $table->string('pincode')->nullable(false);
+        $table->string('landmark')->nullable();
+        $table->string('status')->nullable(false)->default('accepted');
         $table->datetime('delivery_at')->nullable(false);
 
         $table->timestamps();

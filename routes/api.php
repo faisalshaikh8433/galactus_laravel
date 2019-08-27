@@ -21,7 +21,7 @@ Route::resource('shops', 'ShopController')->only([
   'index'
 ]);
 
-Route::resource('customer', 'CustomerController')->only([
+Route::resource('customers', 'CustomerController')->only([
   'index', 'store'
 ]);
 
