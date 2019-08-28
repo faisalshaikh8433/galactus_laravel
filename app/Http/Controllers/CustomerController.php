@@ -44,4 +44,9 @@ class CustomerController extends Controller
       // $validated = $request->validated();
     }
 
+    public function find_by_phone($phone){
+      $customer =  Customer::wherePhone($phone)->firstOrFail();
+      return new CustomerResource($customer, 200);
+    }
+
 }

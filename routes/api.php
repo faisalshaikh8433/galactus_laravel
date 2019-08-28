@@ -30,10 +30,7 @@ Route::middleware(['auth:api'])->group(function () {
     'index', 'store'
   ]);
   
-  Route::get('customers/{phone}', function ($phone = null) {
-    $customer =  App\Customer::where('phone', $phone)->first();
-    return new App\Http\Resources\Customer($customer, 200);
-  });
+  Route::get('customers/{phone}', 'CustomerController@find_by_phone');
   
   Route::apiResources([
     'orders' => 'OrderController'
