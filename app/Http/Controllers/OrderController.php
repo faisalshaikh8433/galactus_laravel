@@ -53,7 +53,7 @@ class OrderController extends Controller
         return response()->json($validator->errors(), 400);
       }else{
         $order = Order::create($request->except('items'));
-        $order->order_items()->createMany($request->input('items'));
+        $order->order_items()->createMany($request->get('items'));
         return new OrderResource($order, 200);
       }
       
