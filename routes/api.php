@@ -17,14 +17,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('shops', 'ShopController')->only([
-  'index'
-]);
+Route::post('user', 'AuthorizationController@create_user');
+Route::post('sign_in', 'AuthorizationController@authenticate');
 
-Route::resource('customers', 'CustomerController')->only([
-  'index', 'store'
-]);
+Route::middleware(['auth:api'])->group(function () {
 
-Route::apiResources([
-  'orders' => 'OrderController'
-]);
+  Route::resource('shops', 'ShopController')->only([
+    'index'
+  ]);
+  
+  Route::resource('customers', 'CustomerController')->only([
+    'index', 'store'
+  ]);
+  
+  Route::get('customers/{phone}', function ($phone = null) {
+    $customer =  App\Customer::where('phone', $phone)->first();
+    return new App\Http\Resources\Customer($customer, 200);
+  });
+  
+  Route::apiResources([
+    'orders' => 'OrderController'
+  ]);
+
+});
