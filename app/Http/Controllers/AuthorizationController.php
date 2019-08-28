@@ -12,21 +12,19 @@ class AuthorizationController extends Controller
     public function create_user(Request $request){
       $validator = Validator::make($request->all(),[
         'name' => 'required',
-        'phone' => 'required|min:10|max:10',
-        'email' => 'required|email',
+        'phone' => 'required|min:10|max:10|unique:users,phone',
+        'email' => 'required|email|unique:users,email',
         'role' => 'required|string',
         'password' => 'required|string|min:8',
       ]);
 
       if ($validator->fails()) {
-        return response()->json($validator->errors(), 400);
+        return response()->json(array("errors"=> $validator->errors()), 400);
       } else {
         $user = new User;
         $user->fill($request->all());
-        do{
-          $api_token = str_random(60);
-        }while(User::where('api_token', $api_token)->exists());
-        $user->api_token = $api_token;
+        $user->api_token = str_random(60);
+        $user->save();
         return response($user, 200);
       }
     }
@@ -55,7 +53,6 @@ class AuthorizationController extends Controller
       
       if($user_exist){
         $user = User::where('email', $request->get('email'))->first();
-        $user->rollApiKey(); //Model Function
         return response($user);
       }
 

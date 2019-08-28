@@ -36,12 +36,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function rollApiKey(){
-      do{
-        $this->api_token = str_random(60);
-      }while($this->where('api_token', $this->api_token)->exists());
-
-      $this->save();
-    }
 }
