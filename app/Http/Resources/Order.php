@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Shop as Shop;
-use App\Customer as Customer;
 use App\Http\Resources\Shop as ShopResource;
 use App\Http\Resources\Customer as CustomerResource;
 use App\Http\Resources\OrderItem;
