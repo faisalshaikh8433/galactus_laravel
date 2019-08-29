@@ -17,8 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-      $orders = Order::paginate(20);
-      return OrderResource::collection($orders);   
+      $orders = Order::with(['shop', 'customer'])->paginate(20);
+      return OrderResource::collection($orders);
     }
 
     /**
@@ -43,7 +43,7 @@ class OrderController extends Controller
                               }
                             }
                           ],
-        'status' => 'required',                
+        'status' => 'required',
         'items.*.name' => 'required',
         'items.*.weight' => 'required',
         'items.*.price' => 'required',
@@ -56,7 +56,7 @@ class OrderController extends Controller
         $order->order_items()->createMany($request->get('items'));
         return new OrderResource($order, 200);
       }
-      
+
     }
 
     /**
@@ -81,7 +81,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
+
     }
 
     /**
