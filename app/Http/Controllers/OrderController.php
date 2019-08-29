@@ -50,10 +50,10 @@ class OrderController extends Controller
       ]);
 
       if ($validator->fails()){
-        return response()->json($validator->errors(), 400);
+        return response()->json(array("errors"=> $validator->errors()), 400);
       }else{
         $order = Order::create($request->except('items'));
-        $order->order_items()->createMany($request->input('items'));
+        $order->order_items()->createMany($request->get('items'));
         return new OrderResource($order, 200);
       }
       

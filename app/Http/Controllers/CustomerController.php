@@ -36,12 +36,17 @@ class CustomerController extends Controller
       ]);
 
       if ($validator->fails()) {
-        return response()->json($validator->errors(), 400);
+        return response()->json(array("errors"=> $validator->errors()), 400);
       } else {
         $customer = Customer::create($request->all());
         return new CustomerResource($customer, 200);
       }
       // $validated = $request->validated();
+    }
+
+    public function find_by_phone($phone){
+      $customer =  Customer::wherePhone($phone)->firstOrFail();
+      return new CustomerResource($customer, 200);
     }
 
 }
