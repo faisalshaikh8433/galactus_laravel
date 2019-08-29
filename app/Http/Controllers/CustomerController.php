@@ -41,7 +41,6 @@ class CustomerController extends Controller
         $customer = Customer::create($request->all());
         return new CustomerResource($customer, 200);
       }
-      // $validated = $request->validated();
     }
 
     public function find_by_phone($phone){
