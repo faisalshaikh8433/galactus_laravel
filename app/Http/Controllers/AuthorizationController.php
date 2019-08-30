@@ -43,7 +43,7 @@ class AuthorizationController extends Controller
       ]);
 
       if ($validator->fails()){
-        return response()->json($validator->errors(), 400);
+        return response()->json(array("errors" => $validator->errors()), 400);
       }
 
       $user_exist = User::where([
